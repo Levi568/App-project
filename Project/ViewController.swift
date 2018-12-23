@@ -40,11 +40,40 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         myAccelerometer()
     }
+    //Accelerometer
+    var motionManager = CMMotionManager()
+    var timer: Timer!
+    let accelerationThreshold:Double = 0.8  //set detect threshold
+    
+    func myAccelerometer(){
+        motionManager.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
+        motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {
+            deviceManager, error in
+            
+            let userAcceleration:CMAcceleration = (deviceManager?.userAcceleration)!
+            if (fabs(userAcceleration.y) > self.accelerationThreshold){
+                print("Low pass filter succeeded")
+            }
+        })
+        motionManager.startAccelerometerUpdates(to:OperationQueue.current!){(data, error) in   //start it without a handler
+            print(data as Any)
+            if let data = self.motionManager.accelerometerData {
+                self.view.reloadInputViews()
+                let x = data.acceleration.x
+                let y = data.acceleration.y
+                let z = data.acceleration.z
+                // Use the accelerometer data
+                self.xAccel!.text = "x: \(Double(x).rounded(toPlaces:3))"
+                self.yAccel!.text = "y: \(Double(y).rounded(toPlaces:3))"
+                self.zAccel!.text = "z: \(Double(z).rounded(toPlaces:3))"
+            }//end if
+        }
+    }//end func
     
     let locationmanager = CLLocationManager()
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
-        //let currentLocation = locations[0]   //newLocation store the most recent location
+        //let currentLocation = locations[0]   //currentLocation store the most recent location
         let currentLocation = locations.last!
         let oldLocation = locations.first!
         let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -68,9 +97,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
         if (overlay is MKPolyline) {
             let pr = MKPolylineRenderer(overlay: overlay)
-            pr.strokeColor = UIColor.red
-            pr.lineWidth = 5
-            print("red ")
+            if (fabs(self.motionManager.accelerometerData?.acceleration.y ?? 0) > accelerationThreshold){
+                pr.strokeColor = UIColor.blue
+                pr.lineWidth = 7
+                print("publish overlay blue line")
+            }
+            else{
+                pr.strokeColor = UIColor.red
+                pr.lineWidth = 7
+                print("publish overlay red line")
+            }
             return pr
         }
         return MKOverlayRenderer()
@@ -110,41 +146,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         previousLocation = newLocation
     }*/
     
-    
-    
-    
+    //Set mapType to standard and satellite
     @IBAction func mapTypeChanged(_ sender: UISegmentedControl) {
         map.mapType = MKMapType.init(rawValue: UInt(sender.selectedSegmentIndex)) ?? .standard
     }
-    
-    //Accelerometer
-    var motionManager = CMMotionManager()
-    var timer: Timer!
-
-    func myAccelerometer(){
-        motionManager.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {
-            deviceManager, error in
-            let accelerationThreshold:Double = 0.8
-            let userAcceleration:CMAcceleration = (deviceManager?.userAcceleration)!
-            if (fabs(userAcceleration.y) > accelerationThreshold){
-                print("Low pass filter succeeded")
-            }
-        })
-        motionManager.startAccelerometerUpdates(to:OperationQueue.current!){(data, error) in   //start it without a handler
-        print(data as Any)
-            if let data = self.motionManager.accelerometerData {
-                self.view.reloadInputViews()
-                let x = data.acceleration.x
-                let y = data.acceleration.y
-                let z = data.acceleration.z
-                // Use the accelerometer data
-                self.xAccel!.text = "x: \(Double(x).rounded(toPlaces:3))"
-                self.yAccel!.text = "y: \(Double(y).rounded(toPlaces:3))"
-                self.zAccel!.text = "z: \(Double(z).rounded(toPlaces:3))"
-            }//end if
-        }
-    }//end func
 }
 extension Double{
     func rounded(toPlaces places:Int)->Double{
