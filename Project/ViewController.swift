@@ -22,35 +22,99 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //mapView.showsUserLocation = true
-        //mapView.delegate = self
         
         //Authorization for user location
-        if (CLLocationManager.authorizationStatus() == .restricted ||
-            CLLocationManager.authorizationStatus() == .denied ||
-            CLLocationManager.authorizationStatus() == .notDetermined){
+        let status = CLLocationManager.authorizationStatus()
+        if (status == .restricted || status == .denied || status == .notDetermined){
             locationmanager.requestWhenInUseAuthorization()
         }
         locationmanager.delegate = self
         locationmanager.desiredAccuracy = kCLLocationAccuracyBest   //Accuracy
         locationmanager.startUpdatingLocation()                     //Update the location
         
-        myAccelerometer()
+        //mapview setup to show user location
+        map.delegate = self
+        map.showsUserLocation = true
+        map.mapType = MKMapType(rawValue: 0)!
+        map.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
         
+        myAccelerometer()
     }
     
     let locationmanager = CLLocationManager()
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
+        //let currentLocation = locations[0]   //newLocation store the most recent location
+        let currentLocation = locations.last!
+        let oldLocation = locations.first!
         let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(locations[0].coordinate.latitude,locations[0].coordinate.longitude)
+        let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,currentLocation.coordinate.longitude)
         let region:MKCoordinateRegion = MKCoordinateRegion(center: myLocation,span: span)
         
         map.setRegion(region, animated:true)
         self.map.showsUserLocation = true
+        print("Present location : ",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude)
+        //drawing path or route covered
+        if let oldLocationNew = oldLocation as CLLocation?{
+            let oldCoordinates = oldLocationNew.coordinate
+            let newCoordinates = currentLocation.coordinate
+            var area = [oldCoordinates, newCoordinates]
+            let polyline = MKPolyline(coordinates: &area, count: area.count)
+            map.addOverlay(polyline)
+            print("addOverlay")
+        }
     }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
+        if (overlay is MKPolyline) {
+            let pr = MKPolylineRenderer(overlay: overlay)
+            pr.strokeColor = UIColor.red
+            pr.lineWidth = 5
+            print("red ")
+            return pr
+        }
+        return MKOverlayRenderer()
+    }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error:Error){
         print("Unable to access the location")
+    }
+    
+    //function to add annotation to map view
+    /*func addAnnotationsOnMap(locationToPoint : CLLocation){
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = locationToPoint.coordinate
+        let geoCoder = CLGeocoder ()
+        geoCoder.reverseGeocodeLocation(locationToPoint, completionHandler: { (placemarks, error) -> Void in
+            if let placemarks = placemarks, placemarks.count > 0 {
+                let placemark = placemarks[0]
+                var addressDictionary = placemark.addressDictionary;
+                annotation.title = addressDictionary?["Name"] as? String
+                self.map.addAnnotation(annotation)
+            }
+        })
+        
+    }*/
+    /*var previousLocation : CLLocation!
+    if let previousLocationNew = previousLocation as CLLocation?{
+        //case if previous location exists
+        if previousLocation.distanceFromLocation(newLocation) > 200 {
+            addAnnotationsOnMap(newLocation)
+            previousLocation = newLocation
+        }
+    }
+    else{
+        //in case previous location doesn't exist
+        addAnnotationsOnMap(newLocation)
+        previousLocation = newLocation
+    }*/
+    
+    
+    
+    
+    @IBAction func mapTypeChanged(_ sender: UISegmentedControl) {
+        map.mapType = MKMapType.init(rawValue: UInt(sender.selectedSegmentIndex)) ?? .standard
     }
     
     //Accelerometer

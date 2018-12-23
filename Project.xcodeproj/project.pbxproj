@@ -16,6 +16,7 @@
 		D018CB4021B975900026C60D /* ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018CB3F21B975900026C60D /* ProjectTests.swift */; };
 		D018CB4B21B975900026C60D /* ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018CB4A21B975900026C60D /* ProjectUITests.swift */; };
 		D0CE175621C99F4B003C0159 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D0CE175521C99F4B003C0159 /* Podfile */; };
+		D0EF8F7421CECB400036E306 /* DotMapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		D018CB4A21B975900026C60D /* ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectUITests.swift; sourceTree = "<group>"; };
 		D018CB4C21B975900026C60D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0CE175521C99F4B003C0159 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotMapOverlay.swift; sourceTree = "<group>"; };
 		E0DA23B4DCD06DCD2448D28D /* Pods-Project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Project/Pods-Project.debug.xcconfig"; sourceTree = "<group>"; };
 		E911C4CF2163803B86EA65EB /* Pods-Project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.release.xcconfig"; path = "Pods/Target Support Files/Pods-Project/Pods-Project.release.xcconfig"; sourceTree = "<group>"; };
 		EB5ED6DFB9EA6D26B98354DC /* libPods-Project.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Project.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +125,7 @@
 		D018CB2921B9758E0026C60D /* Project */ = {
 			isa = PBXGroup;
 			children = (
+				D0EF8F7021CEC8F10036E306 /* Overlays */,
 				D018CB2A21B9758E0026C60D /* AppDelegate.swift */,
 				D018CB2C21B9758E0026C60D /* ViewController.swift */,
 				D018CB2E21B9758E0026C60D /* Main.storyboard */,
@@ -150,6 +153,14 @@
 				D018CB4C21B975900026C60D /* Info.plist */,
 			);
 			path = ProjectUITests;
+			sourceTree = "<group>";
+		};
+		D0EF8F7021CEC8F10036E306 /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */,
+			);
+			path = Overlays;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0EF8F7421CECB400036E306 /* DotMapOverlay.swift in Sources */,
 				D018CB2D21B9758E0026C60D /* ViewController.swift in Sources */,
 				D018CB2B21B9758E0026C60D /* AppDelegate.swift in Sources */,
 			);
