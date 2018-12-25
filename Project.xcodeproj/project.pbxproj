@@ -15,8 +15,8 @@
 		D018CB3521B975900026C60D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D018CB3321B975900026C60D /* LaunchScreen.storyboard */; };
 		D018CB4021B975900026C60D /* ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018CB3F21B975900026C60D /* ProjectTests.swift */; };
 		D018CB4B21B975900026C60D /* ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018CB4A21B975900026C60D /* ProjectUITests.swift */; };
-		D0CE175621C99F4B003C0159 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D0CE175521C99F4B003C0159 /* Podfile */; };
 		D0EF8F7421CECB400036E306 /* DotMapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */; };
+		D0EF8F7621D070420036E306 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0EF8F7521D070420036E306 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +50,8 @@
 		D018CB4621B975900026C60D /* ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D018CB4A21B975900026C60D /* ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectUITests.swift; sourceTree = "<group>"; };
 		D018CB4C21B975900026C60D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0CE175521C99F4B003C0159 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotMapOverlay.swift; sourceTree = "<group>"; };
+		D0EF8F7521D070420036E306 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E0DA23B4DCD06DCD2448D28D /* Pods-Project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Project/Pods-Project.debug.xcconfig"; sourceTree = "<group>"; };
 		E911C4CF2163803B86EA65EB /* Pods-Project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.release.xcconfig"; path = "Pods/Target Support Files/Pods-Project/Pods-Project.release.xcconfig"; sourceTree = "<group>"; };
 		EB5ED6DFB9EA6D26B98354DC /* libPods-Project.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Project.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0EF8F7621D070420036E306 /* MapKit.framework in Frameworks */,
 				B7D4296D222614E159F4CBBC /* libPods-Project.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +87,7 @@
 		965623D2E4D4648496F97567 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0EF8F7521D070420036E306 /* MapKit.framework */,
 				EB5ED6DFB9EA6D26B98354DC /* libPods-Project.a */,
 			);
 			name = Frameworks;
@@ -132,7 +134,6 @@
 				D018CB3121B975900026C60D /* Assets.xcassets */,
 				D018CB3321B975900026C60D /* LaunchScreen.storyboard */,
 				D018CB3621B975900026C60D /* Info.plist */,
-				D0CE175521C99F4B003C0159 /* Podfile */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -236,6 +237,14 @@
 				TargetAttributes = {
 					D018CB2621B9758E0026C60D = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					D018CB3A21B975900026C60D = {
 						CreatedOnToolsVersion = 10.1;
@@ -274,7 +283,6 @@
 			files = (
 				D018CB3521B975900026C60D /* LaunchScreen.storyboard in Resources */,
 				D018CB3221B975900026C60D /* Assets.xcassets in Resources */,
-				D0CE175621C99F4B003C0159 /* Podfile in Resources */,
 				D018CB3021B9758E0026C60D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

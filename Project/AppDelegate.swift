@@ -10,6 +10,8 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import CoreLocation
+import CoreMotion
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

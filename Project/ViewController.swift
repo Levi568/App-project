@@ -18,7 +18,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var yAccel:UITextField!
     @IBOutlet weak var zAccel:UITextField!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -40,33 +39,36 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         myAccelerometer()
     }
+    
     //Accelerometer
     var motionManager = CMMotionManager()
     var timer: Timer!
-    let accelerationThreshold:Double = 0.8  //set detect threshold
+    let accelerationThreshold:Double = 1.0  //set detect threshold
     
     func myAccelerometer(){
-        motionManager.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {
-            deviceManager, error in
-            
-            let userAcceleration:CMAcceleration = (deviceManager?.userAcceleration)!
-            if (fabs(userAcceleration.y) > self.accelerationThreshold){
-                print("Low pass filter succeeded")
+        if motionManager.isAccelerometerAvailable{
+            motionManager.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {
+                deviceManager, error in
+                
+                let userAcceleration:CMAcceleration = (deviceManager?.userAcceleration)!
+                if (fabs(userAcceleration.y) > self.accelerationThreshold){
+                    print("Low pass filter succeeded")
+                }
+            })
+            motionManager.startAccelerometerUpdates(to:OperationQueue.current!){(data, error) in   //start it without a handler
+                print(data as Any)
+                if let data = self.motionManager.accelerometerData {
+                    self.view.reloadInputViews()
+                    let x = data.acceleration.x
+                    let y = data.acceleration.y
+                    let z = data.acceleration.z
+                    // Use the accelerometer data
+                    self.xAccel!.text = "x: \(Double(x).rounded(toPlaces:3))"
+                    self.yAccel!.text = "y: \(Double(y).rounded(toPlaces:3))"
+                    self.zAccel!.text = "z: \(Double(z).rounded(toPlaces:3))"
+                }//end if
             }
-        })
-        motionManager.startAccelerometerUpdates(to:OperationQueue.current!){(data, error) in   //start it without a handler
-            print(data as Any)
-            if let data = self.motionManager.accelerometerData {
-                self.view.reloadInputViews()
-                let x = data.acceleration.x
-                let y = data.acceleration.y
-                let z = data.acceleration.z
-                // Use the accelerometer data
-                self.xAccel!.text = "x: \(Double(x).rounded(toPlaces:3))"
-                self.yAccel!.text = "y: \(Double(y).rounded(toPlaces:3))"
-                self.zAccel!.text = "z: \(Double(z).rounded(toPlaces:3))"
-            }//end if
         }
     }//end func
     
@@ -74,6 +76,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
         //let currentLocation = locations[0]   //currentLocation store the most recent location
+        var locationList:[CLLocation] = []
         let currentLocation = locations.last!
         let oldLocation = locations.first!
         let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -82,7 +85,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         map.setRegion(region, animated:true)
         self.map.showsUserLocation = true
+        //store locations in a list
+        for location in locations{
+            locationList.append(location)
+        }
         print("Present location : ",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude)
+        
         //drawing path or route covered
         if let oldLocationNew = oldLocation as CLLocation?{
             let oldCoordinates = oldLocationNew.coordinate
@@ -92,22 +100,42 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             map.addOverlay(polyline)
             print("addOverlay")
         }
-    }
+        
+        var previousLocation : CLLocation!
+        if (previousLocation as CLLocation?) != nil{
+            //case if previous location exists
+            if previousLocation.distance(from: currentLocation) > 200 {
+                addAnnotationsOnMap(locationToPoint: currentLocation)
+                previousLocation = currentLocation
+            }
+        }
+        else{
+            //in case previous location doesn't exist
+            addAnnotationsOnMap(locationToPoint: currentLocation)
+            previousLocation = currentLocation
+        }
+    }//end function
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
+        let dataValue = fabs(self.motionManager.accelerometerData?.acceleration.y ?? 0)
         if (overlay is MKPolyline) {
-            let pr = MKPolylineRenderer(overlay: overlay)
-            if (fabs(self.motionManager.accelerometerData?.acceleration.y ?? 0) > accelerationThreshold){
-                pr.strokeColor = UIColor.blue
-                pr.lineWidth = 7
-                print("publish overlay blue line")
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            if (dataValue > 1.5){
+                renderer.strokeColor = UIColor.yellow
+                renderer.lineWidth = 7
+                print("publish overlay yellow line")
             }
-            else{
-                pr.strokeColor = UIColor.red
-                pr.lineWidth = 7
+            else if (dataValue > 1.0 && dataValue < 1.5){
+                renderer.strokeColor = UIColor.red
+                renderer.lineWidth = 7
                 print("publish overlay red line")
             }
-            return pr
+            else{
+                renderer.strokeColor = UIColor.blue
+                renderer.lineWidth = 7
+                print("publish overlay blue line")
+            }
+            return renderer
         }
         return MKOverlayRenderer()
     }
@@ -117,34 +145,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     //function to add annotation to map view
-    /*func addAnnotationsOnMap(locationToPoint : CLLocation){
-        
+    func addAnnotationsOnMap(locationToPoint : CLLocation){
         let annotation = MKPointAnnotation()
         annotation.coordinate = locationToPoint.coordinate
-        let geoCoder = CLGeocoder ()
+        let geoCoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(locationToPoint, completionHandler: { (placemarks, error) -> Void in
             if let placemarks = placemarks, placemarks.count > 0 {
-                let placemark = placemarks[0]
-                var addressDictionary = placemark.addressDictionary;
-                annotation.title = addressDictionary?["Name"] as? String
+                let placemark = placemarks[0] as CLPlacemark
+                annotation.title = placemark.name
                 self.map.addAnnotation(annotation)
+                print("add annotation")
             }
         })
-        
-    }*/
-    /*var previousLocation : CLLocation!
-    if let previousLocationNew = previousLocation as CLLocation?{
-        //case if previous location exists
-        if previousLocation.distanceFromLocation(newLocation) > 200 {
-            addAnnotationsOnMap(newLocation)
-            previousLocation = newLocation
-        }
-    }
-    else{
-        //in case previous location doesn't exist
-        addAnnotationsOnMap(newLocation)
-        previousLocation = newLocation
-    }*/
+    }//end function
     
     //Set mapType to standard and satellite
     @IBAction func mapTypeChanged(_ sender: UISegmentedControl) {
