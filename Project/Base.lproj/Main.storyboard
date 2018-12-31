@@ -45,7 +45,7 @@
                                     <navigationItem id="d3L-lw-cbs">
                                         <nil key="title"/>
                                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="4tW-Cw-bdE">
-                                            <rect key="frame" x="117" y="7" width="141" height="30"/>
+                                            <rect key="frame" x="117" y="7.5" width="141" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Standard"/>

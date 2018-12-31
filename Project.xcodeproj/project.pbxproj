@@ -15,7 +15,7 @@
 		D018CB3521B975900026C60D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D018CB3321B975900026C60D /* LaunchScreen.storyboard */; };
 		D018CB4021B975900026C60D /* ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018CB3F21B975900026C60D /* ProjectTests.swift */; };
 		D018CB4B21B975900026C60D /* ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018CB4A21B975900026C60D /* ProjectUITests.swift */; };
-		D0EF8F7421CECB400036E306 /* DotMapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */; };
+		D0AD176221D9535400405382 /* Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0AD176021D9535400405382 /* Project.xcdatamodeld */; };
 		D0EF8F7621D070420036E306 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0EF8F7521D070420036E306 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +50,9 @@
 		D018CB4621B975900026C60D /* ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D018CB4A21B975900026C60D /* ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectUITests.swift; sourceTree = "<group>"; };
 		D018CB4C21B975900026C60D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotMapOverlay.swift; sourceTree = "<group>"; };
+		D02CA68421D451C500D3B0AD /* Project-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Project-Bridging-Header.h"; sourceTree = "<group>"; };
+		D02CA68521D45A1800D3B0AD /* libCorePlot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCorePlot.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0AD176121D9535400405382 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		D0EF8F7521D070420036E306 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E0DA23B4DCD06DCD2448D28D /* Pods-Project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Project/Pods-Project.debug.xcconfig"; sourceTree = "<group>"; };
 		E911C4CF2163803B86EA65EB /* Pods-Project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.release.xcconfig"; path = "Pods/Target Support Files/Pods-Project/Pods-Project.release.xcconfig"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 		965623D2E4D4648496F97567 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D02CA68521D45A1800D3B0AD /* libCorePlot.a */,
 				D0EF8F7521D070420036E306 /* MapKit.framework */,
 				EB5ED6DFB9EA6D26B98354DC /* libPods-Project.a */,
 			);
@@ -127,13 +130,14 @@
 		D018CB2921B9758E0026C60D /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				D0EF8F7021CEC8F10036E306 /* Overlays */,
+				D02CA68421D451C500D3B0AD /* Project-Bridging-Header.h */,
 				D018CB2A21B9758E0026C60D /* AppDelegate.swift */,
 				D018CB2C21B9758E0026C60D /* ViewController.swift */,
 				D018CB2E21B9758E0026C60D /* Main.storyboard */,
 				D018CB3121B975900026C60D /* Assets.xcassets */,
 				D018CB3321B975900026C60D /* LaunchScreen.storyboard */,
 				D018CB3621B975900026C60D /* Info.plist */,
+				D0AD176021D9535400405382 /* Project.xcdatamodeld */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -154,14 +158,6 @@
 				D018CB4C21B975900026C60D /* Info.plist */,
 			);
 			path = ProjectUITests;
-			sourceTree = "<group>";
-		};
-		D0EF8F7021CEC8F10036E306 /* Overlays */ = {
-			isa = PBXGroup;
-			children = (
-				D0EF8F7321CECB400036E306 /* DotMapOverlay.swift */,
-			);
-			path = Overlays;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,8 +353,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0EF8F7421CECB400036E306 /* DotMapOverlay.swift in Sources */,
 				D018CB2D21B9758E0026C60D /* ViewController.swift in Sources */,
+				D0AD176221D9535400405382 /* Project.xcdatamodeld in Sources */,
 				D018CB2B21B9758E0026C60D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +533,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T89762B79C;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Private/CorePlot/ios\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CorePlot\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleMaps\"",
+					"\"${PODS_ROOT}/Headers/Public/GooglePlaces\"",
+				);
 				INFOPLIST_FILE = Project/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -544,6 +548,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = wei.Project;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Project/Project-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -556,6 +561,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T89762B79C;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Private/CorePlot/ios\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CorePlot\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleMaps\"",
+					"\"${PODS_ROOT}/Headers/Public/GooglePlaces\"",
+				);
 				INFOPLIST_FILE = Project/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -563,6 +576,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = wei.Project;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Project/Project-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -690,6 +704,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D0AD176021D9535400405382 /* Project.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D0AD176121D9535400405382 /* Project.xcdatamodel */,
+			);
+			currentVersion = D0AD176121D9535400405382 /* Project.xcdatamodel */;
+			path = Project.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D018CB1F21B9758E0026C60D /* Project object */;
 }

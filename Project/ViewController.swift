@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreMotion
 import CoreLocation
-import simd
+import CoreData
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     @IBOutlet weak var map: MKMapView!
@@ -28,8 +28,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             locationmanager.requestWhenInUseAuthorization()
         }
         locationmanager.delegate = self
-        locationmanager.desiredAccuracy = kCLLocationAccuracyBest   //Accuracy
+        locationmanager.desiredAccuracy = kCLLocationAccuracyBestForNavigation   //Accuracy
         locationmanager.startUpdatingLocation()                     //Update the location
+        locationmanager.startUpdatingHeading()
         
         //mapview setup to show user location
         map.delegate = self
@@ -56,13 +57,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     print("Low pass filter succeeded")
                 }
             })
-            motionManager.startAccelerometerUpdates(to:OperationQueue.current!){(data, error) in   //start it without a handler
+            motionManager.startAccelerometerUpdates(to:OperationQueue.current!){(data, error) in
                 print(data as Any)
                 if let data = self.motionManager.accelerometerData {
                     self.view.reloadInputViews()
                     let x = data.acceleration.x
                     let y = data.acceleration.y
                     let z = data.acceleration.z
+                    
+                    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                    let entity = NSEntityDescription.entity(forEntityName: "Entity", in: context)
+                    let newEntity = NSManagedObject(entity: entity!, insertInto: context)
+                    newEntity.setValue(data.acceleration.y, forKey: "data")
+                    do{
+                    try context.save()
+                    }catch{
+                        print("Fail saving")
+                    }
+                    
                     // Use the accelerometer data
                     self.xAccel!.text = "x: \(Double(x).rounded(toPlaces:3))"
                     self.yAccel!.text = "y: \(Double(y).rounded(toPlaces:3))"
@@ -76,35 +88,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
         //let currentLocation = locations[0]   //currentLocation store the most recent location
-        var locationList:[CLLocation] = []
+        //var locationList:[CLLocation] = []
         let currentLocation = locations.last!
         let oldLocation = locations.first!
-        let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        
+        let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,currentLocation.coordinate.longitude)
         let region:MKCoordinateRegion = MKCoordinateRegion(center: myLocation,span: span)
-        
         map.setRegion(region, animated:true)
-        self.map.showsUserLocation = true
-        //store locations in a list
-        for location in locations{
-            locationList.append(location)
-        }
-        print("Present location : ",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude)
+        print("Present location : ,/(currentLocation.coordinate.latitude),/(currentLocation.coordinate.longitude)")
         
-        //drawing path or route covered
-        if let oldLocationNew = oldLocation as CLLocation?{
-            let oldCoordinates = oldLocationNew.coordinate
+        if (oldLocation as CLLocation? != nil){
+            let oldCoordinates = oldLocation.coordinate
             let newCoordinates = currentLocation.coordinate
             var area = [oldCoordinates, newCoordinates]
             let polyline = MKPolyline(coordinates: &area, count: area.count)
             map.addOverlay(polyline)
-            print("addOverlay")
+            //map.addOverlay(polyline, level: MKOverlayLevel.aboveRoads)
         }
-        
-        var previousLocation : CLLocation!
-        if (previousLocation as CLLocation?) != nil{
+        /*var previousLocation : CLLocation!
+        if (previousLocation as CLLocation? != nil){
             //case if previous location exists
-            if previousLocation.distance(from: currentLocation) > 200 {
+            if previousLocation.distance(from: currentLocation) > 1000 {
                 addAnnotationsOnMap(locationToPoint: currentLocation)
                 previousLocation = currentLocation
             }
@@ -113,26 +118,46 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             //in case previous location doesn't exist
             addAnnotationsOnMap(locationToPoint: currentLocation)
             previousLocation = currentLocation
+        }*/
+        /*if oldLocation as CLLocation? != nil{
+            addAnnotationsOnMap(locationToPoint: oldLocation)
         }
+        else{
+            print("Unable to access the location")
+        }*/
     }//end function
-    
+
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
-        let dataValue = fabs(self.motionManager.accelerometerData?.acceleration.y ?? 0)
+        let dataValue_y = fabs(self.motionManager.accelerometerData?.acceleration.y ?? 0)
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"Entity")
+        request.returnsObjectsAsFaults = false
+        do{
+            let result = try context.fetch(request)
+            for data in result as![NSManagedObject]{
+                data = data.value(forKey: "data")as! Float
+            }
+        }catch{
+            print("Request failing")
+        }
+        
         if (overlay is MKPolyline) {
             let renderer = MKPolylineRenderer(overlay: overlay)
-            if (dataValue > 1.5){
-                renderer.strokeColor = UIColor.yellow
-                renderer.lineWidth = 7
-                print("publish overlay yellow line")
-            }
-            else if (dataValue > 1.0 && dataValue < 1.5){
+            if (dataValue_y > 1.2){
                 renderer.strokeColor = UIColor.red
-                renderer.lineWidth = 7
-                print("publish overlay red line")
+                renderer.lineWidth = 6.0
+            }
+            else if (dataValue_y > 1.1 && dataValue_y < 1.2){
+                renderer.strokeColor = UIColor.orange
+                renderer.lineWidth = 6.0
+            }
+            else if (dataValue_y > 1.0 && dataValue_y < 1.1){
+                renderer.strokeColor = UIColor.yellow
+                renderer.lineWidth = 6.0
             }
             else{
                 renderer.strokeColor = UIColor.blue
-                renderer.lineWidth = 7
+                renderer.lineWidth = 6.0
                 print("publish overlay blue line")
             }
             return renderer

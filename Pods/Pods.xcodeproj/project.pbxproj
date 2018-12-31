@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -253,7 +253,7 @@
 		286976DAF4EEC4D6AD5B8F690E6D40B1 /* CPTScatterPlot.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTScatterPlot.m; path = framework/Source/CPTScatterPlot.m; sourceTree = "<group>"; };
 		287E855C6B5D4B48740CA19273CD192B /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = Maps/Frameworks/GoogleMapsCore.framework; sourceTree = "<group>"; };
 		292DB8B660B214EB206328871E2E8694 /* CPTLineCap.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTLineCap.h; path = framework/Source/CPTLineCap.h; sourceTree = "<group>"; };
-		2977728A55AA76D95AD02E224689C96C /* libPods-Project.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-Project.a"; path = "libPods-Project.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2977728A55AA76D95AD02E224689C96C /* libPods-Project.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Project.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A57E687A3240080EFBD54A1944211E3 /* CPTBarPlot.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTBarPlot.m; path = framework/Source/CPTBarPlot.m; sourceTree = "<group>"; };
 		2BF646CB97F722727F25A1F48070363C /* CPTPlotArea.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTPlotArea.m; path = framework/Source/CPTPlotArea.m; sourceTree = "<group>"; };
 		2E06238ECA695E28185758713AEAAA3B /* _CPTFillColor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = _CPTFillColor.h; path = framework/Source/_CPTFillColor.h; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 		61B8C00678CCFA00100DFA80EBD2CDCD /* CPTNumericData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTNumericData.m; path = framework/Source/CPTNumericData.m; sourceTree = "<group>"; };
 		626A102C75F9DE562890B9F80D64BB5E /* CPTPlotRange.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTPlotRange.m; path = framework/Source/CPTPlotRange.m; sourceTree = "<group>"; };
 		62F5E06F506CF7FB2A6F41DA5988E25D /* CPTShadow.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTShadow.m; path = framework/Source/CPTShadow.m; sourceTree = "<group>"; };
-		636747C9C372EE69DD5792A8DD948249 /* CorePlotProbes.d */ = {isa = PBXFileReference; includeInIndex = 1; name = CorePlotProbes.d; path = framework/TestResources/CorePlotProbes.d; sourceTree = "<group>"; };
+		636747C9C372EE69DD5792A8DD948249 /* CorePlotProbes.d */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.dtrace; name = CorePlotProbes.d; path = framework/TestResources/CorePlotProbes.d; sourceTree = "<group>"; };
 		6375521CF11FC749750BE308237669A2 /* _CPTDarkGradientTheme.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = _CPTDarkGradientTheme.m; path = framework/Source/_CPTDarkGradientTheme.m; sourceTree = "<group>"; };
 		65579385A7DD24A7DA983B2376083820 /* CPTAxis.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTAxis.m; path = framework/Source/CPTAxis.m; sourceTree = "<group>"; };
 		664FC05C53BC00C19D69699CE35696F6 /* CPTTimeFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTTimeFormatter.h; path = framework/Source/CPTTimeFormatter.h; sourceTree = "<group>"; };
@@ -346,7 +346,7 @@
 		8BDD76A2668FBBCA72FF225E7E2FE4FE /* _CPTAnimationTimingFunctions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = _CPTAnimationTimingFunctions.h; path = framework/Source/_CPTAnimationTimingFunctions.h; sourceTree = "<group>"; };
 		8D9CA192E6299FF2867DFC8EA188DCBF /* _CPTXYTheme.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = _CPTXYTheme.h; path = framework/Source/_CPTXYTheme.h; sourceTree = "<group>"; };
 		91693B13D5E77E7CC9721B734251CE49 /* CPTTextLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CPTTextLayer.m; path = framework/Source/CPTTextLayer.m; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9482EE5D3E2C69D3226DEE9BF0D8058B /* CPTLayerAnnotation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTLayerAnnotation.h; path = framework/Source/CPTLayerAnnotation.h; sourceTree = "<group>"; };
 		948386933E642C0F32A2AB208F8524BB /* CPTTheme.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTTheme.h; path = framework/Source/CPTTheme.h; sourceTree = "<group>"; };
 		95C8A3857CB41B7EE6BC919828CAF972 /* _CPTXYTheme.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = _CPTXYTheme.m; path = framework/Source/_CPTXYTheme.m; sourceTree = "<group>"; };
@@ -374,7 +374,7 @@
 		AA2BF9DDCEC297CDDA54C49C4313A747 /* CPTColorSpace.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTColorSpace.h; path = framework/Source/CPTColorSpace.h; sourceTree = "<group>"; };
 		ABA78B5808BDC19E3F17FFB1B8160F8F /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsBase.framework; path = Base/Frameworks/GoogleMapsBase.framework; sourceTree = "<group>"; };
 		B02409F17C1F19C8FAD008C85775461C /* CPTMutableLineStyle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTMutableLineStyle.h; path = framework/Source/CPTMutableLineStyle.h; sourceTree = "<group>"; };
-		B1170ACD8B166DDC7104129B537EDE66 /* libCorePlot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libCorePlot.a; path = libCorePlot.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1170ACD8B166DDC7104129B537EDE66 /* libCorePlot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCorePlot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6FA2E028D57EA24EFEFD1ABAEA04CDE /* Pods-Project-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Project-acknowledgements.plist"; sourceTree = "<group>"; };
 		B82EB134ED1C31F35BBD56E78399F950 /* NSNumberExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NSNumberExtensions.h; path = framework/Source/NSNumberExtensions.h; sourceTree = "<group>"; };
 		B9C17F8290767DBADD5D7A93237BC694 /* CPTPlatformSpecificFunctions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CPTPlatformSpecificFunctions.h; path = framework/iPhoneOnly/CPTPlatformSpecificFunctions.h; sourceTree = "<group>"; };
@@ -484,7 +484,6 @@
 				C4747E71A04A3FB5346B7D12854DDF78 /* Frameworks */,
 				BE0FE197B1DFFD2E7AFF80D263D6E5B0 /* Resources */,
 			);
-			name = GooglePlaces;
 			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
@@ -788,7 +787,6 @@
 				6685ADF39CD8A910D91D94E2CB66F268 /* NSNumberExtensions.m */,
 				A49B2D31F676120CDD26D56BB07B3F67 /* Support Files */,
 			);
-			name = CorePlot;
 			path = CorePlot;
 			sourceTree = "<group>";
 		};
@@ -821,7 +819,6 @@
 				9C8907BC3D1B982AFB101EAE67A7886A /* Base */,
 				CA1A5E7CD8E47B6BD17EFD6BBC264808 /* Maps */,
 			);
-			name = GoogleMaps;
 			path = GoogleMaps;
 			sourceTree = "<group>";
 		};
@@ -1300,8 +1297,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
