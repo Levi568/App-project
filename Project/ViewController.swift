@@ -45,10 +45,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var motionManager = CMMotionManager()
     var timer: Timer!
     let accelerationThreshold:Double = 1.0  //set detect threshold
-    
+    var dataList:[Double] = [0.0]
+    var count = 0
     func myAccelerometer(){
         if motionManager.isAccelerometerAvailable{
-            motionManager.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
+            motionManager.accelerometerUpdateInterval = 1.0 / 40.0  // 40 Hz
             motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {
                 deviceManager, error in
                 
@@ -65,15 +66,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     let y = data.acceleration.y
                     let z = data.acceleration.z
                     
-                    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                    let entity = NSEntityDescription.entity(forEntityName: "Entity", in: context)
-                    let newEntity = NSManagedObject(entity: entity!, insertInto: context)
-                    newEntity.setValue(data.acceleration.y, forKey: "data")
-                    do{
-                    try context.save()
-                    }catch{
-                        print("Fail saving")
-                    }
+                    self.dataList.append(data.acceleration.y)
+                    self.count += 1
+                    //print(self.dataList)
                     
                     // Use the accelerometer data
                     self.xAccel!.text = "x: \(Double(x).rounded(toPlaces:3))"
@@ -106,60 +101,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             map.addOverlay(polyline)
             //map.addOverlay(polyline, level: MKOverlayLevel.aboveRoads)
         }
-        /*var previousLocation : CLLocation!
-        if (previousLocation as CLLocation? != nil){
-            //case if previous location exists
-            if previousLocation.distance(from: currentLocation) > 1000 {
-                addAnnotationsOnMap(locationToPoint: currentLocation)
-                previousLocation = currentLocation
-            }
-        }
-        else{
-            //in case previous location doesn't exist
-            addAnnotationsOnMap(locationToPoint: currentLocation)
-            previousLocation = currentLocation
-        }*/
-        /*if oldLocation as CLLocation? != nil{
-            addAnnotationsOnMap(locationToPoint: oldLocation)
-        }
-        else{
-            print("Unable to access the location")
-        }*/
     }//end function
-
+    
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
         let dataValue_y = fabs(self.motionManager.accelerometerData?.acceleration.y ?? 0)
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"Entity")
-        request.returnsObjectsAsFaults = false
-        do{
-            let result = try context.fetch(request)
-            for data in result as![NSManagedObject]{
-                data = data.value(forKey: "data")as! Float
-            }
-        }catch{
-            print("Request failing")
-        }
+        let prev_dataValue_y = fabs(self.dataList[count-1])
         
+        let comp = fabs(dataValue_y - prev_dataValue_y)
         if (overlay is MKPolyline) {
             let renderer = MKPolylineRenderer(overlay: overlay)
-            if (dataValue_y > 1.2){
+            if (comp > 0.16){
                 renderer.strokeColor = UIColor.red
                 renderer.lineWidth = 6.0
+                print("red")
             }
-            else if (dataValue_y > 1.1 && dataValue_y < 1.2){
+            else if (comp > 0.12 && comp < 0.16){
                 renderer.strokeColor = UIColor.orange
                 renderer.lineWidth = 6.0
+                 print("orange")
             }
-            else if (dataValue_y > 1.0 && dataValue_y < 1.1){
+            else if (comp > 0.08 && comp < 0.12){
+                renderer.strokeColor = UIColor.green
+                renderer.lineWidth = 6.0
+                print("green")
+            }
+            else if (comp > 0.04 && comp < 0.08){
                 renderer.strokeColor = UIColor.yellow
                 renderer.lineWidth = 6.0
+                 print("yellow")
             }
             else{
                 renderer.strokeColor = UIColor.blue
                 renderer.lineWidth = 6.0
                 print("publish overlay blue line")
             }
+            
             return renderer
         }
         return MKOverlayRenderer()
